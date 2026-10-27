@@ -159,3 +159,15 @@ necessário. Não apagar a flash/LittleFS nem mudar FS:2MB para fazer um teste.
 
 As demais limitações e o desenho da fila estão no relatório original
 `docs/RELATORIO_V13.md`. Nenhum registro histórico foi alterado.
+
+### Limitação adicional identificada na revisão comparativa
+
+O parser e o motor atuais da v13.1 rejeitam pesos negativos como `-0002`.
+Se a descarga terminar com duas leituras negativas e não houver duas leituras
+não negativas abaixo do limite, o ciclo pode continuar aberto. O caso foi
+reproduzido em teste isolado; a versão publicada ainda precisa receber esse
+tratamento antes de ser usada em uma instalação que apresente pesos negativos
+depois da retirada do saco. Os 51 grupos aprovados não cobriam esse cenário.
+
+Esta observação atualiza somente a documentação: o `.ino` publicado permanece
+idêntico ao arquivo compilado e testado, sem correção silenciosa de firmware.
